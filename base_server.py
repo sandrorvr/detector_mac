@@ -4,7 +4,7 @@ from classe_sniffer import sniffer as sf
 
 
 
-lista_mac = ['0A9838FA20C3','48FDA375B389']
+lista_mac = ['0a9838fa20c3','48fda375b389']
 
 meuHost = ''
 
@@ -18,20 +18,22 @@ sockobj.listen(5)
 
 sniffer = sf(lista_mac)
 
-while True:
 
-	conexão, endereço = sockobj.accept()
+
+while True:
+	conexao, endereco = sockobj.accept()
 
 	while True:
 		# Recebe data enviada pelo cliente
-		data = conexão.recv(1024)
+		data = conexao.recv(1024)
 		data_decode = data.decode('utf-8')
 
 		# Se não receber nada paramos o loop
 		if not data:
 			break
 		else:
-			sniffer.set_mac(data_decode[:12])
+			#print(data_decode[:10])
+			sniffer.set_mac(data_decode[:10], data_decode[11:])
 			sniffer.delta_deteccao()
 
-	conexão.close()
+	conexao.close()

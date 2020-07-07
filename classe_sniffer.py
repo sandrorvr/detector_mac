@@ -19,28 +19,38 @@ class sniffer:
         self.struct_mac = {}  # {'mac': {primeira_deteccao, ultima_deteccao}}
         self.mac_valido = False
         self.mac = None
+        self.db = None
         self.cof_espera = 10
 
 
-    def set_mac(self, endereco):
+    def set_mac(self, endereco, intensidade):
         self.mac = endereco
         self.status_mac()
         if self.mac_valido == True:
+            self.set_db(intensidade)
             self.dict_mac()
         self.mac_valido = False
+
+    def set_db(self, intensity):
+        self.db = intensity
 
     def status_mac(self):
         for el_lista_mac in self.lista_mac:
             if self.mac in el_lista_mac:
                 self.mac_valido = True
-                print('MAC = {} foi detectado!'.format(self.mac))
+                print('MAC = {} DB = {} foi detectado!'.format(self.mac, self.db))
 
     def dict_mac(self):
         if self.mac not in self.struct_mac:
-            self.struct_mac[self.mac] = {'one_detect':datetime.now(),'two_detect': None}
+            self.struct_mac[self.mac] = {'mac':self.mac,
+                                        'one_detect':datetime.now(),
+                                        'one_detect_db':self.db,
+                                        'two_detect': None,
+                                        'two_detect_db':None}
             print('novo mac add')
         else:
             self.struct_mac[self.mac]['two_detect'] = datetime.now()
+            self.struct_mac[self.mac]['two_detect_db'] = self.db
             print('este mac ja passo por aqui')
 
 
@@ -58,4 +68,4 @@ class sniffer:
     def save_mac(self, new_line):
         with open('banco_dados.csv', 'a') as bd:
             linha = csv.writer(bd)
-            linha.writerow([self.mac, new_line['one_detect'], new_line['two_detect']])
+            linha.writerow([new_line['mac'], new_line['one_detect'],new_line['one_detect_db'], new_line['two_detect'],new_line['two_detect_db']])
