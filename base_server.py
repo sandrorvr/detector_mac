@@ -32,5 +32,6 @@ while True:
 			break
 		else:
 			sniffer.set_mac(data_decode[:12])
+			sniffer.delta_deteccao()
 
 	conexão.close()
