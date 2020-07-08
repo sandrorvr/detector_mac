@@ -61,8 +61,7 @@ class sniffer:
                 if date_time.seconds > self.cof_espera:
                     print('mac salvo')
                     self.save_mac(self.struct_mac[mac])
-                    self.struct_mac[mac]['one_detect'] = None
-                    self.struct_mac[mac]['two_detect'] = None
+                    del self.struct_mac[mac]
 
 
     def save_mac(self, new_line):
