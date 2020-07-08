@@ -54,12 +54,24 @@ class sniffer:
             print('este mac ja passo por aqui')
 
 
+    def deley_two_detect(self, mac):
+        delay = datetime.now() - self.struct_mac[mac]['one_detect']
+        if delay.seconds > self.cof_espera:
+            return True
+        else:
+            return False
+
     def delta_deteccao(self):
         for mac in list(self.struct_mac.keys()):
             if self.struct_mac[mac]['two_detect'] != None:
                 date_time = datetime.now() - self.struct_mac[mac]['two_detect']
                 if date_time.seconds > self.cof_espera:
                     print('mac salvo')
+                    self.save_mac(self.struct_mac[mac])
+                    del self.struct_mac[mac]
+            else:
+                if self.deley_two_detect(mac):
+                    print('mac salvo sem two_detect')
                     self.save_mac(self.struct_mac[mac])
                     del self.struct_mac[mac]
 
