@@ -4,7 +4,7 @@ from classe_sniffer import sniffer as sf
 
 
 
-lista_mac = ['0a9838fa20c3','48fda375b389']
+lista_mac = ['0a9838fa20c3','a450467abe5b']
 
 meuHost = ''
 
@@ -32,7 +32,7 @@ while True:
 		if not data:
 			break
 		else:
-			#print(data_decode[:10])
+#			print(data_decode[:10])
 			sniffer.set_mac(data_decode[:10], data_decode[11:])
 			sniffer.delta_deteccao()
 
